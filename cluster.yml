@@ -1,0 +1,87 @@
+__default__:
+  mem: 4000
+  time: "04:00:00"
+  cpus-per-task: 1
+  log: "-o log/{rule}/{wildcards.sample}.%j.out -e log/{rule}/{wildcards.sample}.%j.err"
+
+fastp:
+  time: "00:30:00"
+  mem: 8000
+
+multiqc:
+  mem: 4000
+  time: "00:30:00"
+  cpus-per-task: 1
+  log: "-o log/multiqc.%j.out -e log/multiqc.%j.err"
+
+star:
+  time: "04:00:00"
+  mem: 64000
+  cpus-per-task: 16
+
+samtools_index:
+  time: "00:10:00"
+  mem: 2000
+  cpus-per-task: 1
+
+rmats:
+  time: "04:00:00"
+  mem: 32000
+  cpus-per-task: 4
+  log: "-o log/{rule}/{wildcards.contrast}.%j.out -e log/{rule}/{wildcards.contrast}.%j.err"
+
+featureCounts:
+  time: "02:00:00"
+  mem: 16000
+  cpus-per-task: 16
+
+salmon:
+  time: "02:00:00"
+  mem: 12000
+  cpus-per-task: 10
+
+sj_bed:
+  time: "00:20:00"
+  mem: 4000
+  cpus-per-task: 1
+
+dexseq_count:
+  time: "06:00:00"
+  mem: 64000
+  cpus-per-task: 1
+
+exclusion_count:
+  time: "06:00:00"
+  mem: 64000
+  cpus-per-task: 1
+
+psi_calculation:
+  time: "00:20:00"
+  mem: 4000
+  cpus-per-task: 1
+
+dge:
+  log: "-o log/dge.%j.out -e log/dge.%j.err"
+
+star_index:
+  time: "01:00:00"
+  mem: 64000
+  cpus-per-task: 8
+  log: "-o log/star_index.%j.out -e log/star_index.%j.err"
+
+salmon_index:
+  time: "01:00:00"
+  mem: 4000
+  log: "-o log/salmon_index.%j.out -e log/salmon_index.%j.err"
+
+make_input_txt:
+  time: "00:05:00"
+  mem: 1000
+  cpus-per-task: 1
+  log: "-o log/make_input_txt.%j.out -e log/make_input_txt.%j.err"
+
+splash2:
+  time: "12:00:00"
+  mem: 48000
+  cpus-per-task: 4
+  log: "-o log/splash2.%j.out -e log/splash2.%j.err"

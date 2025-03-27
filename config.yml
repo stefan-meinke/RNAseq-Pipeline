@@ -1,0 +1,54 @@
+# General parameters
+gtf: /fast/AG_Gotthardt/smeinke/Annotation_files/Mus_musculus.GRCm39.111.gtf
+genome_fasta: /fast/AG_Gotthardt/smeinke/Annotation_files/Mus_musculus.GRCm39.111.dna.primary_assembly.fa
+transcriptome_fasta: /fast/AG_Gotthardt/smeinke/Annotation_files/Mus_musculus.GRCm39.cdna.all.fa
+readLength: 150
+colData: /fast/AG_Gotthardt/smeinke/PIPELINE/colData.xlsx
+samples:
+  WT1: WT1
+  WT2: WT2
+  WT3: WT3
+  KO1: KO1
+  KO2: KO2
+  KO3: KO3
+
+# Pre-processing and QC
+sample_path: /fast/AG_Gotthardt/smeinke/PIPELINE/data/fastq
+outdir_fastp: /fast/AG_Gotthardt/smeinke/PIPELINE/data/trimmed
+outdir_fastqc: /fast/AG_Gotthardt/smeinke/PIPELINE/data/QC
+
+# STAR alignment parameters
+build_star_index: true
+star_index_dir: /fast/AG_Gotthardt/smeinke/PIPELINE/STAR_index
+outdir_star: /fast/AG_Gotthardt/smeinke/PIPELINE/STAR_align
+sjdbOverhang: 149
+twopass: true
+
+# rMATS-turbo parameters
+rmats_path: /gnu/store/3ibb3ahb1avh90r64kxm24aqp221aq5n-rmats-turbo-4.3.0/share/rmats-turbo/rmats.py
+outdir_rmats: /fast/AG_Gotthardt/smeinke/PIPELINE/rMATS-turbo
+rmats_type: paired # otions: paired, single
+libType: fr-firststrand # options fr-firststrand, fr-secondstrand, fr-unstranded
+contrasts:
+  KO-vs-WT:
+  - KO
+  - WT
+
+# featureCounts parameters
+outdir_featureCounts: /fast/AG_Gotthardt/smeinke/PIPELINE/featureCounts
+feature_type: true # for paired-end data
+
+# Salmon parameters
+build_salmon_index: true
+salmon_index_dir: /fast/AG_Gotthardt/smeinke/PIPELINE/Salmon_index
+outdir_salmon: /fast/AG_Gotthardt/smeinke/PIPELINE/Salmon
+
+# PSI parameters
+outdir_psi: /fast/AG_Gotthardt/smeinke/PIPELINE/PSI
+gff: /fast/AG_Gotthardt/smeinke/Annotation_files/Mus_musculus.GRCm39.111_canonical_reduced.gff
+psi:
+  paired: yes # "yes" for paired-end reads, "no" for single-end
+  strand_specificity: reverse # options: reverse, yes, no
+
+# SPLASH2
+splash: /fast/AG_Gotthardt/smeinke/SPLASH2_v2.11/./splash
