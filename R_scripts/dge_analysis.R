@@ -1,3 +1,11 @@
+# ------------------------------------------------------------------- #
+# Script for Differential Gene Expression (DGE) analysis using DESeq2 
+#                                                     
+# Author: Stefan Meinke, AG Gotthardt
+# R version 4.3.0
+#
+# ------------------------------------------------------------------- #
+
 #!/usr/bin/env Rscript
 
 # Load required libraries
