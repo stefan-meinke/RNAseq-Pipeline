@@ -5,17 +5,17 @@ __default__:
   log: "-o log/{rule}/{wildcards.sample}.%j.out -e log/{rule}/{wildcards.sample}.%j.err"
 
 fastp:
-  time: "00:30:00"
-  mem: 8000
+  time: "04:00:00"
+  mem: 16000
 
 multiqc:
-  mem: 4000
+  mem: 8000
   time: "00:30:00"
   cpus-per-task: 1
   log: "-o log/multiqc.%j.out -e log/multiqc.%j.err"
 
 star:
-  time: "04:00:00"
+  time: "06:00:00"
   mem: 64000
   cpus-per-task: 16
 
@@ -30,13 +30,16 @@ rmats:
   cpus-per-task: 4
   log: "-o log/{rule}/{wildcards.contrast}.%j.out -e log/{rule}/{wildcards.contrast}.%j.err"
 
+rmats_analysis:
+  log: "-o log/rmats/rmats_analysis.%j.out -e log/rmats/rmats_analysis.%j.err"
+
 featureCounts:
   time: "02:00:00"
   mem: 16000
   cpus-per-task: 16
 
 salmon:
-  time: "02:00:00"
+  time: "04:00:00"
   mem: 12000
   cpus-per-task: 10
 
@@ -46,12 +49,12 @@ sj_bed:
   cpus-per-task: 1
 
 dexseq_count:
-  time: "06:00:00"
+  time: "12:00:00"
   mem: 64000
   cpus-per-task: 1
 
 exclusion_count:
-  time: "06:00:00"
+  time: "12:00:00"
   mem: 64000
   cpus-per-task: 1
 
@@ -59,6 +62,12 @@ psi_calculation:
   time: "00:20:00"
   mem: 4000
   cpus-per-task: 1
+
+psi_plots:
+  time: "00:30:00"
+  mem: 4000
+  cpus-per-task: 1
+  log: "-o log/PSI_plots/psi_plots.%j.out -e log/PSI_plots/psi_plots.%j.err"
 
 dge:
   log: "-o log/dge.%j.out -e log/dge.%j.err"

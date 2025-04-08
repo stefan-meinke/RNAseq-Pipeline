@@ -53,6 +53,7 @@ rule all:
 	expand("rmats/{contrast}_b1.txt", contrast=list(config["contrasts"].keys())),
         expand("rmats/{contrast}_b2.txt", contrast=list(config["contrasts"].keys())),
         expand("rmats/{contrast}", contrast=list(config["contrasts"].keys())),
+	"Results/rmats/rmats_results.xlsx",
 	# featureCounts output:
 	expand("{fc_dir}/{sample}_featureCounts.txt", fc_dir=config["outdir_featureCounts"], sample=SAMPLES),
 	# DESeq2 output:
@@ -68,7 +69,9 @@ rule all:
         config["salmon_index_dir"] + "/salmon_index.built",
 	# SPLASH2 files:
 	"Splash2/input.txt",
-        "Splash2/splash_done.marker"
+        "Splash2/splash_done.marker",
+	# PSI plots:
+	"Results/PSI_plots/psi_plots_done.marker"
 
 
 
@@ -235,6 +238,22 @@ rule rmats:
         """)
 
 
+rule rmats_analysis:
+    input:
+        # Wait for all rMATS contrast directories to be ready.
+        contrasts = expand("rmats/{contrast}", contrast=list(config["contrasts"].keys()))
+    output:
+        excel = "Results/rmats/rmats_results.xlsx"
+    params:
+        rmats_dir = "rmats"
+    threads: 1
+    shell:
+        """
+        Rscript R_scripts/rmats_analysis.R \
+            --rmats_dir {params.rmats_dir} \
+            --output {output.excel}
+        """
+
 
 rule featureCounts:
     input:
@@ -344,8 +363,37 @@ rule psi_calculation:
         gff = config["gff"]
     shell:
         """
-        python3 PSI_scripts/psi_calculation.py {params.gff} {input.inclusion} {input.exclusion} -l {params.readLength} {output.psi}
+        if [ ! -f {output.psi} ]; then
+            python3 PSI_scripts/psi_calculation.py {params.gff} {input.inclusion} {input.exclusion} -l {params.readLength} {output.psi}
+        else
+            echo "{output.psi} already exists. Skipping psi_calculation."
+        fi
         """
+
+rule psi_plots:
+    resources:
+        mem_mb=4000
+    input:
+        psi_files = expand("{psi_dir}/{sample}.psi", psi_dir=config["outdir_psi"], sample=SAMPLES)
+    output:
+        marker = "Results/PSI_plots/psi_plots_done.marker"
+    log:
+        "log/PSI_plots/psi_plots.log"
+    run:
+        if not config.get("generate_psi_plots", False):
+            print("Skipping PSI plot generation because generate_psi_plots is set to False")
+            shell("mkdir -p Results/PSI_plots && touch {output.marker}")
+        else:
+            # Run the PSI plot R script and redirect its output to the log file
+            shell("""
+                Rscript R_scripts/PSIplot.R \
+                    --psi_dir {config[outdir_psi]} \
+                    --colData {config[colData]} \
+                    --gtf {config[psi_gtf]} \
+                    --target_genes {config[target_genes]} \
+                    --output Results/PSI_plots > {log} 2>&1
+            """)
+            shell("touch {output.marker}")
 
 
 rule dge:
