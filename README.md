@@ -180,5 +180,13 @@ Ensure that all file paths in config.yml are correct and accessible.
 - Environment Problems:
 Verify that the Conda environment is activated and that all dependencies are correctly installed.
 
+
+## Planned Improvements & Ideas
+- add RSeQC scripts for quality and statistics
+- generation of a final report (including statistics, figures, tables...)
+- improve and expand existing R scripts (e.g. include enrichment analysis (GO, KEGG, Wikipathways, GSEA))
+- additional R scripts for downstream analysis and result visualization (e.g. Differential Transcript Usage using [DRIMSeq](https://f1000research.com/articles/5-1356/v2))
+- add example output figures
+
 ## License
 This project is licensed under the GNU General Public License v3.0. See the LICENSE file for details.

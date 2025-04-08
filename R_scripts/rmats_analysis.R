@@ -237,13 +237,6 @@ if (length(non_empty_list) == 0) {
     )
 }
 
-# 
-# AS_all <- bind_rows(combined_list) %>%  
-#   mutate(
-#     Type = factor(Type, levels = c("SE", "MXE", "RI", "A3SS", "A5SS")),
-#     contrast = factor(contrast)
-# )
-
 
 # save filtered result table
 write_xlsx(AS_all, opts$output)

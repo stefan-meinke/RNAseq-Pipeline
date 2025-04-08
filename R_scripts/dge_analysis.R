@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------- #
 # Script for Differential Gene Expression (DGE) analysis using DESeq2 
 #                                                     
-# Author: Stefan Meinke, AG Gotthardt
+# Author: Stefan Meinke
 # R version 4.3.0
 #
 # ------------------------------------------------------------------- #
@@ -89,7 +89,7 @@ counts_list <- Map(function(file, sample) {
 
 # Merge all dataframes by 'geneID'
 counts <- reduce(counts_list, left_join, by = "geneID")
-# counts <- Reduce(function(x, y) merge(x, y, by = "geneID", all.x = TRUE), counts_list)
+
 
 # Convert the merged dataframe to a counts matrix (with geneID as rownames)
 counts_matrix <- counts %>% 
