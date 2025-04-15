@@ -63,8 +63,6 @@ gtf_file <- opts$gtf
 gtf <- rtracklayer::import(gtf_file)
 
 
-
-
 # ----------------------------------------------- #
 # 2. Load the sample information and target genes #
 # ----------------------------------------------- #

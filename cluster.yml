@@ -15,7 +15,7 @@ multiqc:
   log: "-o log/multiqc.%j.out -e log/multiqc.%j.err"
 
 star:
-  time: "06:00:00"
+  time: "04:00:00"
   mem: 64000
   cpus-per-task: 16
 
@@ -71,6 +71,13 @@ psi_plots:
 
 dge:
   log: "-o log/dge.%j.out -e log/dge.%j.err"
+
+gene_expression_analysis:
+  log: "-o log/geneExpression.%j.out -e log/geneExpression.%j.err"
+
+enrichment:
+  log: "-o log/enrichment.%j.out -e log/enrichment.%j.err"
+
 
 star_index:
   time: "01:00:00"

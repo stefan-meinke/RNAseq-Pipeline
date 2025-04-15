@@ -53,11 +53,15 @@ rule all:
 	expand("rmats/{contrast}_b1.txt", contrast=list(config["contrasts"].keys())),
         expand("rmats/{contrast}_b2.txt", contrast=list(config["contrasts"].keys())),
         expand("rmats/{contrast}", contrast=list(config["contrasts"].keys())),
-	"Results/rmats/rmats_results.xlsx",
+	#"Results/rmats/rmats_results.xlsx",
 	# featureCounts output:
 	expand("{fc_dir}/{sample}_featureCounts.txt", fc_dir=config["outdir_featureCounts"], sample=SAMPLES),
 	# DESeq2 output:
 	"Results/DESeq2/DESeq_results.xlsx",
+	# geneExpression analysis
+	"Results/DESeq2/gene_expression_done.marker",
+	# Enrichment analysis:
+	"Results/DESeq2/Enrichment/enrichment_done.marker",
 	# salmon output:
 	expand("{salmon_dir}/{sample}_quant/quant.sf", salmon_dir=config["outdir_salmon"], sample=SAMPLES),
 	# PSI output:
@@ -410,6 +414,53 @@ rule dge:
     run:
         shell("mkdir -p Results/DESeq2")
         shell("Rscript {params.script} --counts_dir {config[outdir_featureCounts]} --colData {input.colData} --gtf {input.gtf} --output {output.de_results}")
+
+
+rule gene_expression_analysis:
+    input:
+        counts_dir = config["outdir_featureCounts"],
+        colData = config["colData"],
+        gtf = config["gtf"],
+        config_file = "config.yml"
+    output:
+        marker = "Results/DESeq2/gene_expression_done.marker"
+    params:
+        script = "R_scripts/geneExpression_analysis.R",
+        deseq_dir = "Results/DESeq2"  # future output dir
+    shell:
+        """
+        mkdir -p {params.deseq_dir}
+        Rscript {params.script} \
+            --deseq_result {params.deseq_dir} \
+            --counts_dir {input.counts_dir} \
+            --colData {input.colData} \
+            --gtf {input.gtf} \
+            --config {input.config_file}
+        touch {output.marker}
+        """
+
+
+rule enrichment:
+    input:
+        deseq_result="Results/DESeq2/DESeq_results.xlsx",
+        config_file="config.yml"
+    output:
+        marker="Results/DESeq2/Enrichment/enrichment_done.marker"
+    params:
+        script="R_scripts/enrichment_analysis.R",
+        deseq_dir="Results/DESeq2",
+        annotation=config["organism"],
+        output_dir="Results/DESeq2/Enrichment"
+    shell:
+        """
+        mkdir -p {params.output_dir}
+        Rscript {params.script} \
+            --deseq_result {params.deseq_dir} \
+            --annotation {params.annotation} \
+            --config {input.config_file} \
+            --output {params.output_dir}
+        touch {output.marker}
+        """
 
 
 # make input.txt file for SPLASH2

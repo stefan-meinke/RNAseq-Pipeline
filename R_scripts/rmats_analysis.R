@@ -31,6 +31,8 @@ suppressPackageStartupMessages({
 option_list <- list(
   make_option(c("-d", "--rmats_dir"), type="character", default=NULL,
               help="Directory containing rMATS output TXT files (*.MATS.JC.txt)", metavar="dir"),
+  make_option(c("-c", "--config"), type = "character", default="config.yml",
+              help="Path to config file [default %default]", metavar="file"),
   make_option(c("-o", "--output"), type="character", default="Results/rmats/rmats_results.xlsx",
               help="Output file name for rMATS results [default %default]", metavar="file")
 )
@@ -76,6 +78,16 @@ save_base_plot <- function(plot_expr, file_path, width, height) {
   eval(plot_expr)
   dev.off()
 }
+
+# -------------------------- #
+# Load configuration file #
+# -------------------------- #
+message("Loading configuration from: ", opts$config)
+config <- yaml::read_yaml(opts$config)
+
+rmats_filter <- config$rmats_filter
+FDR_cutoff <- rmats_filter$FDR
+deltaPSI_cutoff <- rmats_filter$deltaPSI
 
 
 
@@ -128,7 +140,7 @@ sum_comma_separated <- function(x) {
 # ----------------------------------------------------------- #
 # Function to load rMATS result files with optional filtering #
 # ----------------------------------------------------------- #
-load_rmats_data <- function(rmats_dir, filter_data = TRUE, fdr_threshold = 0.05, deltaPSI_threshold = 0.1) {
+load_rmats_data <- function(rmats_dir, filter_data = TRUE, fdr_threshold = FDR_cutoff, deltaPSI_threshold = deltaPSI_cutoff) {
   # Initialize an empty list to store results
   rmats_results <- list()
   
@@ -201,9 +213,7 @@ load_rmats_data <- function(rmats_dir, filter_data = TRUE, fdr_threshold = 0.05,
 message("Loading rMATS-turbo output files from: ", opts$rmats_dir)
 
 AS_all_list <- load_rmats_data(opts$rmats_dir, 
-                               filter_data = TRUE, 
-                               fdr_threshold = 0.01, 
-                               deltaPSI_threshold = 0.15) 
+                               filter_data = TRUE) 
 
 # Combine the result files from each contrast into one dataframe
 combined_list <- imap(AS_all_list, ~ mutate(.x, contrast = .y))
@@ -236,6 +246,8 @@ if (length(non_empty_list) == 0) {
       contrast = factor(contrast)
     )
 }
+
+
 
 
 # save filtered result table
