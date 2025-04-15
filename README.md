@@ -17,9 +17,9 @@ Alignment of reads to the reference genome using [STAR](https://github.com/alexd
 - **Gene-level Read Counting**:
 Generation of gene-level counts for differential gene expression (DGE) analysis using [featureCounts](https://subread.sourceforge.net/featureCounts.html) ([Liao et al., 2013](https://academic.oup.com/bioinformatics/article/30/7/923/232889)) (part of the subread package).
 - **Transcript Quantification**:
-Quantification of transcript abundances using [Salmon](https://combine-lab.github.io/salmon/getting_started/).
+Quantification of transcript abundances using [Salmon](https://combine-lab.github.io/salmon/getting_started/) ([Patro et al., 2017](https://www.nature.com/articles/nmeth.4197)).
 - **Alternative Splicing Analysis**:
-Alternative splicing (AS) analysis using [rMATS-turbo](https://github.com/Xinglab/rmats-turbo) and [SPLASH2](https://github.com/refresh-bio/SPLASH/wiki)([Chaung et al., 2023](https://www.cell.com/cell/fulltext/S0092-8674(23)01179-0), [Kokot et al., 2024](https://www.cell.com/cell/fulltext/S0092-8674(23)01179-0).
+Alternative splicing (AS) analysis using [rMATS-turbo](https://github.com/Xinglab/rmats-turbo) ([Wang et al., 2024](https://www.nature.com/articles/s41596-023-00944-2)) and [SPLASH2](https://github.com/refresh-bio/SPLASH/wiki) ([Chaung et al., 2023](https://www.cell.com/cell/fulltext/S0092-8674(23)01179-0), [Kokot et al., 2024](https://www.cell.com/cell/fulltext/S0092-8674(23)01179-0).
 - **PSI Calculation**:
 Calculation of exon-level Percent Spliced In (PSI) values. The Python scripts used to calculate exon-level Percent Spliced In (PSI) values are adapted from [Schafer et al. 2015](https://currentprotocols.onlinelibrary.wiley.com/doi/full/10.1002/0471142905.hg1116s87) and originally available at https://github.com/MIAOKUI/PSI. **Note**: These scripts are released under the GNU General Public License v3 and are not provided as part of this repository. For integration into this pipeline, see [Prerequisites](#prerequisites).
 
@@ -53,7 +53,7 @@ A [Snakemake profile](https://snakemake.readthedocs.io/en/stable/executing/cli.h
 If using the GUIX shell approach, [rMATS-turbo](https://github.com/Xinglab/rmats-turbo) must be installed and the path to the executable set in the [config.yml](./config.yml) file.
 
 **4. Reduced GFF Annotation**:
-For exon-level PSI calculations a reduced GFF annotation file is required (e.g. generated using [dexseq_prepare_annotation.py](https://bioconductor.org/packages/release/bioc/vignettes/DEXSeq/inst/doc/DEXSeq.html#24_preparing_the_annotation)).
+For exon-level PSI calculations a reduced GFF annotation file is required (e.g. generated using [dexseq_prepare_annotation.py](https://bioconductor.org/packages/release/bioc/vignettes/DEXSeq/inst/doc/DEXSeq.html#24_preparing_the_annotation) ([Anders et al., 2012](https://pmc.ncbi.nlm.nih.gov/articles/PMC3460195/))).
 
 **5. PSI scripts**:
 PSI calculation scripts are provided at https://github.com/MIAOKUI/PSI. Originally written in Python 2, these scripts require updates to Python 3 for incorporation into this pipeline. The following code snippets illustrate additional required changes:
@@ -190,6 +190,8 @@ Verify that the Conda environment is activated and that all dependencies are cor
 This project is licensed under the GNU General Public License v3.0. See the LICENSE file for details.
 
 ## References
+Anders S, Reyes A, Huber W. Detecting differential usage of exons from RNA-seq data. Genome Res. 2012 Oct;22(10):2008-17. doi: 10.1101/gr.133744.111. Epub 2012 Jun 21. PMID: 22722343; PMCID: PMC3460195.
+
 Chen S, Zhou Y, Chen Y, Gu J. fastp: an ultra-fast all-in-one FASTQ preprocessor. Bioinformatics. 2018 Sep 1;34(17):i884-i890. doi: 10.1093/bioinformatics/bty560. PMID: 30423086; PMCID: PMC6129281.
 
 Dobin A, Davis CA, Schlesinger F, Drenkow J, Zaleski C, Jha S, Batut P, Chaisson M, Gingeras TR. STAR: ultrafast universal RNA-seq aligner. Bioinformatics. 2013 Jan 1;29(1):15-21. doi: 10.1093/bioinformatics/bts635. Epub 2012 Oct 25. PMID: 23104886; PMCID: PMC3530905.
@@ -197,3 +199,9 @@ Dobin A, Davis CA, Schlesinger F, Drenkow J, Zaleski C, Jha S, Batut P, Chaisson
 Liao Y, Smyth GK, Shi W. featureCounts: an efficient general purpose program for assigning sequence reads to genomic features. Bioinformatics. 2014 Apr 1;30(7):923-30. doi: 10.1093/bioinformatics/btt656. Epub 2013 Nov 13. PMID: 24227677.
 
 Nowicka M, Robinson MD. DRIMSeq: a Dirichlet-multinomial framework for multivariate count outcomes in genomics. F1000Res. 2016 Jun 13;5:1356. doi: 10.12688/f1000research.8900.2. PMID: 28105305; PMCID: PMC5200948.
+
+Patro, R., Duggal, G., Love, M. et al. Salmon provides fast and bias-aware quantification of transcript expression. Nat Methods 14, 417–419 (2017). https://doi.org/10.1038/nmeth.4197
+
+Schafer S, Miao K, Benson CC, Heinig M, Cook SA, Hubner N. Alternative Splicing Signatures in RNA-seq Data: Percent Spliced in (PSI). Curr Protoc Hum Genet. 2015 Oct 6;87:11.16.1-11.16.14. doi: 10.1002/0471142905.hg1116s87. PMID: 26439713.
+
+Wang, Y., Xie, Z., Kutschera, E. et al. rMATS-turbo: an efficient and flexible computational tool for alternative splicing analysis of large-scale RNA-seq data. Nat Protoc 19, 1083–1104 (2024). https://doi.org/10.1038/s41596-023-00944-2
