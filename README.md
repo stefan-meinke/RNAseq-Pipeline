@@ -1,5 +1,7 @@
 # RNAseq Pipeline
 
+![Workflow](workflow.png)
+
 This repository contains an RNAseq analysis pipeline built with [Snakemake](https://snakemake.readthedocs.io/en/stable/). The pipeline is modular and reproducible, integrating multiple analysis steps—from read preprocessing, differential gene expression, and alternative splicing analysis, to exon-level PSI calculation. It is designed to run either in a GUIX or Conda environment.
 
 This pipeline (including the downstream data analysis) is a work-in-progress. It serves as a personal project designed to continuously enhance my skills in bioinformatics, computational biology, and data analysis. As part of its ongoing development, new features will be added and existing components refined or restructured based on testing and integration of further scripts and tools.
