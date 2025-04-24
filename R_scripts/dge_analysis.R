@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------- #
 # Script for Differential Gene Expression (DGE) analysis using DESeq2 
 #                                                     
-# Author: Stefan Meinke, AG Gotthardt
+# Author: Dr. Stefan Meinke
 # R version 4.3.0
 #
 # ------------------------------------------------------------------- #
@@ -168,7 +168,7 @@ colData <- colData[common_samples, , drop = FALSE]
 config <- yaml::read_yaml("config.yml")
 contrast_list <- config$contrasts
 
-# Initialize a list to store results (optional)
+# Initialize a list to store results
 results_list <- list()
 
 # Loop over each contrast
@@ -191,8 +191,6 @@ for (contrast_name in names(contrast_list)) {
   dds_temp <- DESeq(dds_temp)
   
   # Build the coefficient name.
-  # With the factor releveling above, DESeq2 should create a coefficient of the form:
-  # "group_<treatment>_vs_<reference>"
   coef_name <- paste0("group_", contrast_vec[[1]], "_vs_", contrast_vec[[2]])
   
   # Check that the coefficient is present
@@ -209,15 +207,14 @@ for (contrast_name in names(contrast_list)) {
   res_df <- res_df %>% 
     left_join(gene_annotations, by = "geneID") %>% 
     mutate(contrast = contrast_name)
-  
-  
+
   results_list[[contrast_name]] <- res_df
 }
 
 
 result_table <- bind_rows(results_list)
 
-# Create output filename dynamically
+# Create output filename
 output_file <- "Results/DESeq2/DESeq_results.xlsx"
   
 # Write results to Excel
