@@ -1,7 +1,7 @@
 # ----------------------------------------- #
 # Script for gene expression data analysis  
 #                                                     
-# Author: Stefan Meinke, AG Gotthardt
+# Author: Stefan Meinke
 # R version 4.3.0
 #
 # ----------------------------------------- #
@@ -63,7 +63,7 @@ if (!dir.exists(output_dir)) {
   dir.create(output_dir, recursive = TRUE)
 }
 
-# output_dir <- "Results/DESeq2"
+
 
 # ------------------- #
 # custom ggplot theme #
@@ -102,8 +102,6 @@ save_ggplot <- function(plot_object, file_path, width, height, dpi = 300) {
 message("Loading configuration from: ", opts$config)
 config <- yaml::read_yaml(opts$config)
 
-# config <- yaml::read_yaml("config.yml") ### delete
-
 
 DGE_filter <- config$DGE_filter
 padj_cutoff <- DGE_filter$padj
@@ -127,15 +125,10 @@ deseq_filtered <- deseq %>%
   filter(padj < padj_cutoff & abs(log2FoldChange) >= FC_cutoff)
 
 
-# deseq <- read_xlsx("Results/DESeq2/DESeq_results.xlsx") ### delete
-
-
 # -------------------------------------------------- #
 # Load and prepare the counts files for DGE analysis #
 # -------------------------------------------------- #
 message("Loading featureCounts output files from: ", opts$counts_dir)
-
-# counts_dir <- "featureCounts/"
 
 # List all files ending with "featureCounts.txt" (searching recursively)
 reads <- list.files(
@@ -228,8 +221,6 @@ txdb <- tryCatch({
 })
 
 
-# txdb <- rtracklayer::import("//mdc-berlin.net/fs/fast/AG_Gotthardt/smeinke/Annotation_files/Homo_sapiens.GRCh38.111.gtf")
-
 gene_annotations <- as.data.frame(txdb) %>%
   dplyr::select(gene_id, gene_name) %>%
   dplyr::rename(geneID = gene_id, Gene = gene_name) %>% 
@@ -238,7 +229,6 @@ gene_annotations <- as.data.frame(txdb) %>%
 if(nrow(gene_annotations) == 0) {
   stop("Error: No gene annotations extracted from the GTF file.")
 }
-
 
 
 # ------------------------------------------------------------------------------ #
