@@ -1,4 +1,4 @@
-import os  # import python os module
+import os 
 import re
 
 configfile: "config.yml"
@@ -23,7 +23,7 @@ def get_group(sample):
     For example, for "WT1" or "WT_1" it returns "WT"; for "KO1" it returns "KO".
     Adjust the regex if your naming convention is different.
     """
-    # Try splitting by underscore if available:
+    # split by underscore if available:
     if "_" in sample:
         return sample.split("_")[0]
     # Otherwise, assume that the group is all non-digit characters at the start:
@@ -143,7 +143,7 @@ if config["build_star_index"]:
                 --sjdbOverhang {params.sjdbOverhang}
             """
 else:
-    # If the user has a pre-built index, you can create a dummy rule
+    # If pre-built index is present, create a dummy rule
     rule star_index:
         output:
             star_sa = config["star_index_dir"] + "/SA"
@@ -226,7 +226,7 @@ rule rmats:
         with open(output.b2, 'w') as f:
             f.write(",".join(b2_bams))
         
-        # Now run rMATS-turbo.
+        # run rMATS-turbo.
         shell("""
             python3 {params.rmats_path} \
                 --b1 {output.b1} \
