@@ -107,8 +107,10 @@ PSI_all_adj <- PSI_all %>%
 
 
 
-
-# -- 4. Load the psi_plot function --
+# ----------------------------- #
+# 4. Load the psi_plot function #
+# ----------------------------- #
+                  
 psi_plot <- function(gene_name, psi_table, gtf, 
                      y_max = 115,
                      base_size = 10) {
@@ -166,7 +168,6 @@ psi_plot <- function(gene_name, psi_table, gtf,
   }
   
   # 6) Add scaled coordinates for each exon, then merge with your PSI table.
-  #    Assume psi_table has columns: exon, PSI, Sample, Condition, etc.
   exon_df <- exon_df %>%
     mutate(
       scaled_start = scale_genomic(start),
@@ -211,7 +212,7 @@ psi_plot <- function(gene_name, psi_table, gtf,
   breaks_seq <- if (N > 50) seq(1, N, 5) else seq(1, N, 1)
   x_limits <- c(0.5, N + 0.5)
   
-  # 12) Possibly rotate x-axis labels if many exons
+  # 12) Rotate x-axis labels if many exons
   angle <- if (N > 50) 90 else 0
   hjust <- if (N > 50) 1 else 0.5
   
