@@ -1,10 +1,10 @@
 # General parameters
 organism: h # set h for human, m for mouse
-gtf: /fast/AG_Gotthardt/smeinke/Annotation_files/Homo_sapiens.GRCh38.111.gtf
-genome_fasta: /fast/AG_Gotthardt/smeinke/Annotation_files/Homo_sapiens.GRCh38.111.dna.primary_assembly.fa
-transcriptome_fasta: /fast/AG_Gotthardt/smeinke/Annotation_files/Homo_sapiens.GRCh38.cdna.all.fa
+gtf: /path/to/gene_annotation.gtf
+genome_fasta: /path/to/dna.primary_assembly.fa
+transcriptome_fasta: /path/to/cdna.all.fa
 readLength: 150
-colData: /fast/AG_Gotthardt/smeinke/PIPELINE/colData.xlsx
+colData: /colData.xlsx
 samples:
   WT1: WT1
   WT2: WT2
@@ -14,20 +14,20 @@ samples:
   KO3: KO3
 
 # Pre-processing and QC
-sample_path: /fast/AG_Gotthardt/smeinke/PIPELINE/data/fastq
-outdir_fastp: /fast/AG_Gotthardt/smeinke/PIPELINE/data/trimmed
-outdir_fastqc: /fast/AG_Gotthardt/smeinke/PIPELINE/data/QC
+sample_path: /data/fastq
+outdir_fastp: /data/trimmed
+outdir_fastqc: /data/QC
 
 # STAR alignment parameters
 build_star_index: true
-star_index_dir: /fast/AG_Gotthardt/smeinke/PIPELINE/STAR_index
-outdir_star: /fast/AG_Gotthardt/smeinke/PIPELINE/STAR_align
+star_index_dir: /STAR_index
+outdir_star: /STAR_align
 sjdbOverhang: 149
 twopass: true
 
 # rMATS-turbo parameters
-rmats_path: /gnu/store/3ibb3ahb1avh90r64kxm24aqp221aq5n-rmats-turbo-4.3.0/share/rmats-turbo/rmats.py
-outdir_rmats: /fast/AG_Gotthardt/smeinke/PIPELINE/rMATS-turbo
+rmats_path: /path/to/rmats-turbo/rmats.py
+outdir_rmats: /rMATS-turbo
 rmats_type: paired # otions: paired, single
 libType: fr-firststrand # options fr-firststrand, fr-secondstrand, fr-unstranded
 contrasts:
@@ -39,7 +39,7 @@ rmats_filter:
   deltaPSI: 0.15
 
 # featureCounts parameters
-outdir_featureCounts: /fast/AG_Gotthardt/smeinke/PIPELINE/featureCounts
+outdir_featureCounts: /featureCounts
 feature_type: true # for paired-end data
 DGE_filter:
   padj: 0.01
@@ -47,23 +47,23 @@ DGE_filter:
 
 # Salmon parameters
 build_salmon_index: true
-salmon_index_dir: /fast/AG_Gotthardt/smeinke/PIPELINE/Salmon_index
-outdir_salmon: /fast/AG_Gotthardt/smeinke/PIPELINE/Salmon
+salmon_index_dir: /Salmon_index
+outdir_salmon: /Salmon
 
 # PSI parameters
-outdir_psi: /fast/AG_Gotthardt/smeinke/PIPELINE/PSI
-gff: /fast/AG_Gotthardt/smeinke/Annotation_files/Mus_musculus.GRCm39.111_canonical_reduced.gff
+outdir_psi: /PSI
+gff: /path/to/reduced/annotation.gff
 psi:
   paired: yes # "yes" for paired-end reads, "no" for single-end
   strand_specificity: reverse # options: reverse, yes, no
 plot_groups:
   groups: [WT, KO]
   reference: WT
-psi_gtf: /fast/AG_Gotthardt/smeinke/Annotation_files/Homo_sapiens.GRCh38.111_canonical.gtf # if a different GTF file is wanted (e.g. only canonical transcripts)
+psi_gtf: /path/to/gene_annotation_canonical.gtf # if a different GTF file is wanted (e.g. only canonical transcripts)
 
 # optional PSI plotting (default is to not generate plots)
 generate_psi_plots: True # change to True if wanted
-target_genes: /fast/AG_Gotthardt/smeinke/PIPELINE/target_genes.txt
+target_genes: /target_genes.txt
 
 # SPLASH2
-splash: /fast/AG_Gotthardt/smeinke/SPLASH2_v2.11/./splash
+splash: /path/to/./splash
